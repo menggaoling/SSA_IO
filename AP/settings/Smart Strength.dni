@@ -14,7 +14,7 @@ TraceBufferSize=0x00010000
 TraceStallIfFIFOFull=0x00000000
 TracePortSize=0x00000004
 [DebugChecksum]
-Checksum=-2124259291
+Checksum=-507500295
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
@@ -43,6 +43,8 @@ ITMportsLogFile=0
 ITMlogFile=$PROJ_DIR$\ITM.log
 [array_types]
 Fmt0=UCHAR[544]	4	0
+[watch_formats]
+Fmt0={W}42:w_Power_On	4	0
 [SWOTraceWindow]
 PcSampling=0
 InterruptLogs=0
@@ -103,8 +105,7 @@ Exclusions=
 [Disassemble mode]
 mode=0
 [Breakpoints2]
-Bp0=_ 0 "EMUL_CODE" "{$PROJ_DIR$\App\main.c}.541.3" 0 0 1 "" 0 "" 0
-Count=1
+Count=0
 [Aliases]
 Count=0
 SuppressDialog=0

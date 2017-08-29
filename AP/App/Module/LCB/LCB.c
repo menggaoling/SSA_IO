@@ -14,7 +14,7 @@ void LCB_CmdProcess(void);
 
 void LCB_Initial(void)
 {
-    LCB_Hal_Initial();
+//    LCB_Hal_Initial();
     
     FIFO_Initial(&FIFO_Base, aby_FIFOBuff, sizeof(aby_FIFOBuff));
     memset(&CmdRx, 0, sizeof(CmdRx));
@@ -209,5 +209,68 @@ void LCB_Send_Cmd2(UCHAR CmdType, UCHAR *data, UCHAR by_Len)
 
 void LCB_Power_On(UCHAR bWakeUP)
 {
+    UCHAR senddata = 0;
+    if(bWakeUP)
+    {
+      LCB_Hw_WakeUp_LCB();
+    }
+    LCB_Hal_Initial();
+    LCB_Send_Special_Cmd(DS_EUP,&senddata,1);
+    LCB_Send_Special_Cmd(DS_INITIAL,0,0);
     
+    
+}
+
+void LCB_Send_Special_Cmd(UCHAR Cmd, UCHAR *data, UCHAR by_Length)
+{
+  UCHAR RxData[20];
+  UCHAR reTry = 3;
+  
+  LCB_Send_Cmd2(Cmd, data, by_Length);
+  Timer_Clear(12);
+  while(1)
+  {
+    if(LCB_Rx_Data(RxData, &by_Length) > 0)
+    {
+      switch(Cmd)
+      {
+      case DS_INITIAL:
+        {
+          //          if(RxData[4] & 0x80)
+          //          {
+          //            BITSET(w_Out, STATUS_BIT_LCB_CALIBRATION);
+          //          }
+          //          lcbSts = RxData[4];
+        }
+        break;
+      case DS_EUP:
+        break;
+      case DG_NEW_VERSION:
+        {
+          lcbType = RxData[6];
+          lcbVersion = ((UINT16)RxData[8]) << 8;
+          lcbVersion += RxData[9];
+        }
+        break;
+      default:break;
+      }
+      
+      break;
+    }
+    else
+    {
+      if(Timer_Counter(12, 10))
+      {
+        Timer_Clear(12);
+        if(reTry > 0)
+        {
+          --reTry;
+          LCB_Send_Cmd2(Cmd, data, by_Length);
+        }
+        else
+          break;
+      }
+      
+    }
+  }
 }

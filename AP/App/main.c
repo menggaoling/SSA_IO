@@ -2,7 +2,7 @@
 
 
 #define TYPE                    "Smart Strength IO"
-#define VER_MAJOR               3
+#define VER_MAJOR               55
 #define VER_MINOR               4
 
 #define BootLoaderAddress	    ((UINT32)0x08000000)
@@ -327,8 +327,8 @@ void Main_ERP_Process(void)
     
     //ÒÑ±»»½ÐÑ;
     Main_Init();   
-    UCHAR senddata = 0;
-    LCB_Send_Cmd2(0x7A,&senddata,1);
+//    UCHAR senddata = 0;
+//    LCB_Send_Special_Cmd(DS_EUP,&senddata,1);
   }
 }
 
@@ -682,7 +682,7 @@ void Main_ComProcess(void)
           {
             ErpStatus = ERP_LEAVE;
           }
-          LCB_Send_Cmd2(0x7A,stDataRx.Data,1);
+          LCB_Send_Special_Cmd(DS_EUP,stDataRx.Data,1);
           Timer_Clear(TIMER_SLEEP_DELAY);
         }
         break;
@@ -887,7 +887,7 @@ void Main_ComProcess(void)
             if(LCB_Update_Read(stDataTx.Data, &stDataTx.Length) == CmdLCBReturnProgramState)
             {
               LCB_Initial();
-              LCB_Power_On(FALSE);
+//              LCB_Power_On(FALSE);
               break;
             }
             if(Timer_Counter(TIMER_UPDATE_MCB_RESENT, 30))
@@ -1274,6 +1274,8 @@ void Main_Init(void)
   Main.SendSafekeyPlug = 1;
   ErpStatus = ERP_NONE;
   
+  LCB_Power_On(TRUE);
+  
   if(Power_Get_Power_On() != C_PASSWORD)
   {
     Power_Set_Power_On(C_PASSWORD);
@@ -1286,7 +1288,7 @@ void Main_Init(void)
     }
     
     while(!Beep_Get_OK());
-    LCB_Power_On(TRUE);
+//    LCB_Power_On(TRUE);
   }
 }
 

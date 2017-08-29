@@ -26,7 +26,7 @@
 typedef enum
 {
     //Common Command
-    DS_INITIAL = 0,             //0x70
+    DS_INITIAL = 0x70,             //0x70
     DG_STATUS,                  //0x71
     DG_ERRCODE,                 //0x72
     DG_VERSION,                 //0x73
@@ -102,9 +102,9 @@ typedef enum
 //    DG_INDUCTION_CALP4,         //0x90
 //    DG_INDUCTION_CALP5,         //0x91
     DG_GET_TM_IN_USED,          //0x95
-    DS_EUP,                     //0x7A
+    DS_EUP = 0x7A,              //0x7A
     DG_IR_STATUS,               //0x99
-    DG_NEW_VERSION,             //0x50 0xF0
+    DG_NEW_VERSION = 0x50,      //0x50 0xF0
     DS_SAVE_PWM,                //0x50
     DS_READ_PWM,                //0x50 0x8100 + 0x0001/2/3/4/5
     DG_LCB_DATA_INFOR,          //0x50 0x00--
@@ -205,6 +205,7 @@ void LCB_Disable(void);
 void LCB_Tx_Data(UCHAR *by_Data, UCHAR by_Len);
 UCHAR LCB_Rx_Data(UCHAR *by_Data, UCHAR *by_Len);
 void LCB_Send_Cmd2(UCHAR CmdType, UCHAR *data, UCHAR by_Len);
+void LCB_Send_Special_Cmd(UCHAR Cmd, UCHAR *data, UCHAR by_Length);
 
 #endif
 

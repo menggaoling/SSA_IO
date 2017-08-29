@@ -151,11 +151,11 @@ void LCB_Hw_WakeUp_LCB(void)
     
     HW_Set_IO_Output(UART_TX_PORT, UART_TX_PIN);
     HW_Set_IO_Low(UART_TX_PORT, UART_TX_PIN);
-    LCB_Hw_Delay(600);                                                          //标准为500ms
+    LCB_Hw_Delay(400);                                                          //标准为400ms
     HW_Set_IO_High(UART_TX_PORT, UART_TX_PIN);
     LCB_Hw_Delay(50);
     
-    LCB_Hw_Init(9600);
+//    LCB_Hw_Init(9600);
 }
 
 void LCB_Hw_Delay(UINT16 i) //unit:1ms
